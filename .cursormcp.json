@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "oboard-mcp": {
+      "command": "node",
+      "args": ["/home/badf00d/oboard_mcp/dist/server.js"],
+      "description": "Oboard MCP server with OKR, echo, and add tools",
+      "env": {}
+    }
+  }
+} 
