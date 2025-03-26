@@ -70,6 +70,7 @@ API_KEY=your_api_key
 WORKSPACE_ID=15346
 OBOARD_API_BASE_URL=https://backend.okr-api.com/api
 CACHE_TTL=3600
+LOG_FILE=/path/to/your/log/file.log
 ```
 4. Build the project with `npm run build`
 5. Start the server with `npm start`
@@ -82,21 +83,65 @@ The server can be configured using environment variables:
 - `WORKSPACE_ID` - Your Oboard workspace ID (required, default: 15346)
 - `OBOARD_API_BASE_URL` - Base URL for the Oboard API (default: https://backend.okr-api.com/api)
 - `CACHE_TTL` - Time-to-live for the cache in seconds (default: 3600)
-- `LOG_FILE` - Path to the log file (default: 'oboard-mcp.log')
+- `LOG_FILE` - Path to the log file (default: '~/oboard-mcp.log' in your home directory)
 
 ## Logging
 
-The server writes detailed logs to a file (default: 'oboard-mcp.log') instead of using console logging, which would interfere with the JSON-RPC protocol. This provides debugging capabilities without breaking the MCP communication.
+The server implements comprehensive logging to help diagnose issues and monitor behavior. Two log files are used:
+
+1. **Main Log File** (`LOG_FILE` in .env):
+   - Records detailed operational logs
+   - Configurable location via the `LOG_FILE` environment variable
+   - Default location: `~/oboard-mcp.log` (in your home directory)
+
+2. **Startup Log** (fixed location):
+   - Records very early initialization information
+   - Fixed location: `~/oboard-startup.log` (in your home directory)
+   - Useful for debugging startup issues
 
 Log entries include:
 - Timestamps
-- Log levels (INFO, WARN, ERROR)
-- Server events
+- Log levels (INFO, WARN, ERROR, DEBUG)
+- Server events and environment information
 - API requests and responses
 - Search parameters and results
-- Error details
+- Error details with stack traces
 
-You can change the log file location by setting the `LOG_FILE` environment variable.
+The logging is designed to work with JSON-RPC communication without interference, making it suitable for use with MCP clients like Claude.
+
+## MCP Integration
+
+To integrate with Claude or other MCP clients:
+
+1. Configure your MCP client to point to the server. For Cursor, add this to `~/.cursor/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "oboard": {
+      "command": "node",
+      "args": ["/path/to/oboard_mcp/dist/server.js"],
+      "description": "MCP server for Oboard OKR data", 
+      "transportType": "stdio",
+      "env": {}
+    }
+  }
+}
+```
+
+2. Make sure your `.env` file is properly configured with your API credentials and desired settings.
+
+3. Build the project with `npm run build` to generate the JavaScript files.
+
+4. The MCP client will automatically start the server when needed.
+
+## Debugging
+
+If you encounter issues with the MCP integration:
+
+1. Check both log files (`~/oboard-mcp.log` and `~/oboard-startup.log`) for error messages
+2. Verify that your `.env` file contains the correct API credentials
+3. Ensure the path in your MCP client configuration points to the correct location of the server.js file
+4. Try running the server directly with `node dist/server.js` to see if it starts properly
 
 ## MCP Tool: OKR
 

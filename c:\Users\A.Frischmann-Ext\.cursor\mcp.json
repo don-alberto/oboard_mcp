@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+      "oboard": {
+        "command": "node",
+        "args": ["/home/badf00d/oboard_mcp/dist/server.js"],
+        "description": "MCP server for Oboard OKR data",
+        "transportType": "stdio",
+        "env": {}
+      }
+    }
+} 
