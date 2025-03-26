@@ -31,12 +31,13 @@ To get an API token:
 ### Initializing the API Client
 
 ```typescript
-import { OboardApi } from './api/index.js';
+import { OboardApi } from './oboard/index.js';
 import 'dotenv/config';
 
 const api = new OboardApi({
   baseUrl: process.env.OBOARD_API_URL,
-  token: process.env.OBOARD_API_TOKEN
+  token: process.env.OBOARD_API_TOKEN,
+  defaultWorkspaceId: 12345 // Optional, can also be set in environment
 });
 ```
 
@@ -53,7 +54,7 @@ const workspace = await api.workspaces.getWorkspace(workspaceId);
 ### Getting Elements (OKRs)
 
 ```typescript
-import { ElementSearchType } from './api/types.js';
+import { ElementSearchType } from './oboard/types.js';
 
 // Get elements with filtering
 const elements = await api.elements.getElements({

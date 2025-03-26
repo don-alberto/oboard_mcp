@@ -7,14 +7,14 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node --esm src/server.ts",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "dev": "ts-node src/server.ts",
+    "test": "jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "client:demo": "node --loader ts-node/esm src/api/client-demo.ts",
-    "search": "node --loader ts-node/esm src/api/cli-search.ts",
+    "client:demo": "node --loader ts-node/esm src/oboard/client-demo.ts",
+    "search": "node --loader ts-node/esm src/oboard/cli-search.ts",
     "test-client": "node --loader ts-node/esm src/test-client.ts",
     "simple-test": "node --loader ts-node/esm src/simple-test.ts",
-    "direct-api-test": "node --loader ts-node/esm src/api/direct-api-test.ts"
+    "direct-api-test": "node --loader ts-node/esm src/oboard/direct-api-test.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",

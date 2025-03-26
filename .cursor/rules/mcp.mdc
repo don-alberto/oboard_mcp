@@ -25,6 +25,10 @@ Never:
 - Implement protocol-level error codes
 - Create custom notification systems
 
+## logging
+- console.log statements are interfering with the JSON-RPC protocol, which requires clean stdin/stdout communication. NEVER EVER use it.
+
+
 ## Overview
 
 This project uses the Model Context Protocol (MCP) to bridge interactions between a Oboard API and an LLM-based client.

@@ -1,22 +1,22 @@
-FROM python:3.11-slim
+FROM node:18-alpine
 
+# Create app directory
 WORKDIR /app
 
-# Install Poetry
-RUN pip install poetry
-
-# Copy source code and dependency files
-COPY pyproject.toml poetry.lock ./
-COPY src/ ./src/
-COPY .env ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
 # Install dependencies
-RUN poetry config virtualenvs.create false \
-    && poetry install --only main --no-interaction --no-ansi
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN npm run build
 
 # Set environment variables
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
+ENV NODE_ENV=production
 
 # Run the application
-CMD ["poetry", "run", "python", "-m", "src.main"] 
+CMD ["node", "dist/server.js"] 
